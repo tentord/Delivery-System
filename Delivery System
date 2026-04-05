@@ -1,0 +1,92 @@
+class Customer {
+  static totalCustomers = 0;
+  static availableSlots = 20;
+
+  constructor(customerId, name){
+    this.customerId = customerId;
+    this.name = name;
+    Customer.totalCustomers++;
+  }
+
+  static requestDelivery() {
+    if (Customer.availableSlots > 0) {Customer.availableSlots--;
+      console.log('Delivery booked. Remaining slots: ${Customer.available}  else {
+        console.log("Sorry,delivery delayed");
+      }
+    }
+    
+    console.log(${this.name} requested a delivery.);
+    delivery.createDelivery();
+  }
+
+  trackDelivery(delivery) {
+    console.log(Tracking Delivery: Status = ${delivery.status});
+  }
+}
+
+
+class Rider {
+  static totalRiders = 0;
+
+  constructor(riderId, isAvailable = true) {
+    this.riderId = riderId;
+    this.isAvailable = isAvailable;
+    Rider.totalRiders++;
+  }
+
+  acceptDelivery(delivery) {
+    if (this.isAvailable) {
+      console.log(Rider ${this.riderId} accepted the delivery.);
+      delivery.updateStatus("In Transit");
+      this.isAvailable = false;
+    } else {
+      console.log(Rider ${this.riderId} is not available.);
+    }
+  }
+
+  completeDelivery(delivery) {
+    console.log(Rider ${this.riderId} completed the delivery.);
+    delivery.updateStatus("Delivered");
+    this.isAvailable = true;
+  }
+}
+
+
+class Delivery {
+  static totalDeliveries = 0;
+
+  constructor(deliveryId, pickupLocation) {
+    this.deliveryId = deliveryId;
+    this.pickupLocation = pickupLocation;
+    this.status = "Pending";
+    Delivery.totalDeliveries++;
+  }
+
+  createDelivery() {
+    console.log(Delivery ${this.deliveryId} created from ${this.pickupLocation});
+  }
+
+  updateStatus(newStatus) {
+    this.status = newStatus;
+    console.log(Delivery status updated to: ${this.status});
+  }
+}
+
+// TESTING THE SYSTEM (this is "expected result")
+
+const customer1 = new Customer("C001", "Tentor");
+const rider1 = new Rider("R001");
+
+const delivery1 = new Delivery("D001", "Nsukka");
+
+// Flow
+customer1.requestDelivery(delivery1);
+rider1.acceptDelivery(delivery1);
+customer1.trackDelivery(delivery1);
+rider1.completeDelivery(delivery1);
+
+// Static values
+console.log("\n--- SYSTEM STATS ---");
+console.log("Total Customers:", Customer.totalCustomers);
+console.log("Total Riders:", Rider.totalRiders);
+console.log("Total Deliveries:", Delivery.totalDeliveries);
